@@ -18,7 +18,7 @@ func NewPCE(host, user, key, version string) *PCE {
 	}
 }
 
-func (c *PCE) NewRestyClient() *resty.Client {
+func (c *PCE) newRestyClient() *resty.Client {
 	return resty.
 		New().
 		SetBaseURL(c.Host+"/api/"+c.Version).

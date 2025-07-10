@@ -37,7 +37,7 @@ type Cluster struct {
 func (c *PCE) GetClusters() ([]Cluster, error) {
 	var clusters []Cluster
 
-	r := c.NewRestyClient()
+	r := c.newRestyClient()
 
 	resp, err := r.R().
 		SetResult(&clusters).
