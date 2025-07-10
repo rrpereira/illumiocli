@@ -1,4 +1,4 @@
-package main
+package illumiocli
 
 import (
 	"fmt"
@@ -6,15 +6,18 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
-type Errors struct {
+// Error represents an API error
+type Error struct {
 	ErrorType string `json:"error_type"`
 }
 
+// Node represents a cluster node
 type Node struct {
 	Name      string `json:"name"`
 	PodSubnet string `json:"pod_subnet"`
 }
 
+// Cluster represents an Illumio container cluster
 type Cluster struct {
 	Href             string   `json:"href"`
 	PceFqdn          *string  `json:"pce_fqdn"`
@@ -29,10 +32,11 @@ type Cluster struct {
 	Online           bool     `json:"online"`
 	Nodes            []Node   `json:"nodes"`
 	ContainerRuntime *string  `json:"container_runtime"`
-	Errors           []Errors `json:"errors"`
+	Errors           []Error  `json:"errors"`
 	Caps             []string `json:"caps"`
 }
 
+// GetClusters retrieves all container clusters from the PCE
 func (c *Client) GetClusters() ([]Cluster, error) {
 	var clusters []Cluster
 
