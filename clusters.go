@@ -2,8 +2,6 @@ package illumiocli
 
 import (
 	"fmt"
-
-	"github.com/go-resty/resty/v2"
 )
 
 // Error represents an API error
@@ -36,14 +34,10 @@ type Cluster struct {
 	Caps             []string `json:"caps"`
 }
 
-// GetClusters retrieves all container clusters from the PCE
-func (c *Client) GetClusters() ([]Cluster, error) {
+func (c *PCE) GetClusters() ([]Cluster, error) {
 	var clusters []Cluster
 
-	r := resty.
-		New().
-		SetBaseURL(c.Host).
-		SetBasicAuth(c.User, c.Key)
+	r := c.NewRestyClient()
 
 	resp, err := r.R().
 		SetResult(&clusters).

@@ -10,7 +10,7 @@ func TestNewClient(t *testing.T) {
 	key := "testkey"
 	version := "v1"
 
-	client := NewClient(host, user, key, version)
+	client := NewPCE(host, user, key, version)
 
 	if client.Host != host {
 		t.Errorf("Expected Host to be %s, got %s", host, client.Host)
