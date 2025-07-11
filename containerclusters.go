@@ -4,19 +4,16 @@ import (
 	"fmt"
 )
 
-// Error represents an API error
 type Error struct {
 	ErrorType string `json:"error_type"`
 }
 
-// Node represents a cluster node
 type Node struct {
 	Name      string `json:"name"`
 	PodSubnet string `json:"pod_subnet"`
 }
 
-// Cluster represents an Illumio container cluster
-type Cluster struct {
+type ContainerCluster struct {
 	Href             string   `json:"href"`
 	PceFqdn          *string  `json:"pce_fqdn"`
 	Name             string   `json:"name"`
@@ -34,8 +31,8 @@ type Cluster struct {
 	Caps             []string `json:"caps"`
 }
 
-func (c *PCE) GetClusters() ([]Cluster, error) {
-	var clusters []Cluster
+func (c *PCE) GetContainerClusters() ([]ContainerCluster, error) {
+	var clusters []ContainerCluster
 
 	r := c.newRestyClient()
 
@@ -47,7 +44,11 @@ func (c *PCE) GetClusters() ([]Cluster, error) {
 	}
 
 	if resp.IsError() {
-		return nil, fmt.Errorf("API error: status %d - %s", resp.StatusCode(), resp.Status())
+		if len(resp.Body()) != 0 {
+			return nil, fmt.Errorf("API error: status %d - %s - %s", resp.StatusCode(), resp.Status(), string(resp.Body()))
+		} else {
+			return nil, fmt.Errorf("API error: status %d - %s", resp.StatusCode(), resp.Status())
+		}
 	}
 
 	return clusters, nil
