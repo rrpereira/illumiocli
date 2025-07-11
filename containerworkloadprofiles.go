@@ -32,14 +32,14 @@ type ContainerWorkloadProfile struct {
 	UpdatedBy       *Href                           `json:"updated_by,omitempty"`
 }
 
-func (c *PCE) GetContainerWorkloadProfilesByContainerClusterID(id string) ([]ContainerWorkloadProfile, error) {
+func (c *PCE) GetContainerWorkloadProfilesByContainerClusterHref(href string) ([]ContainerWorkloadProfile, error) {
 	var profiles []ContainerWorkloadProfile
 
 	r := c.newRestyClient()
 
 	resp, err := r.R().
 		SetResult(&profiles).
-		Get(fmt.Sprintf("/orgs/1/container_clusters/%s/container_workload_profiles", id))
+		Get(fmt.Sprintf("%s/container_workload_profiles", href))
 	if err != nil {
 		return nil, err
 	}

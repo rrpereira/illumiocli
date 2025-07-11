@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestGetContainerWorkloadProfilesByContainerClusterID_Success(t *testing.T) {
+func TestGetContainerWorkloadProfilesByContainerClusterHref_Success(t *testing.T) {
 	mockResponse := `[
 		{
 			"href": "/orgs/10/container_clusters/11111111-1111-1111-1111-111111111111/container_workload_profiles/22222222-2222-2222-2222-222222222222",
@@ -288,7 +288,7 @@ func TestGetContainerWorkloadProfilesByContainerClusterID_Success(t *testing.T) 
 		Version: "v1",
 	}
 
-	profiles, err := pce.GetContainerWorkloadProfilesByContainerClusterID("test-cluster-id")
+	profiles, err := pce.GetContainerWorkloadProfilesByContainerClusterHref("/orgs/1/container_clusters/test-cluster-id")
 
 	if err != nil {
 		t.Fatalf("Expected no error, got %v", err)
@@ -340,7 +340,7 @@ func TestGetContainerWorkloadProfilesByContainerClusterID_Success(t *testing.T) 
 	}
 }
 
-func TestGetContainerWorkloadProfilesByContainerClusterID_Failure_403(t *testing.T) {
+func TestGetContainerWorkloadProfilesByContainerClusterHref_Failure_403(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != "GET" {
 			t.Errorf("Expected GET method, got %s", r.Method)
@@ -371,7 +371,7 @@ func TestGetContainerWorkloadProfilesByContainerClusterID_Failure_403(t *testing
 		Version: "v1",
 	}
 
-	profiles, err := pce.GetContainerWorkloadProfilesByContainerClusterID("test-cluster-id")
+	profiles, err := pce.GetContainerWorkloadProfilesByContainerClusterHref("/orgs/1/container_clusters/test-cluster-id")
 
 	if err == nil {
 		t.Error("Expected an error due to 403 status, but got nil")
